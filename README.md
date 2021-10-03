@@ -1,3 +1,26 @@
+## Warning: not yet tested all the way through!
+
+# mkxp-oneshot but you want it to build like a normal software package
+
+Building with conan doesn't seem to work at time of writing (403 errors), and I have no need to recompile dependencies that my distro has already built, or that *I've* already built and installed to /usr/local for other mkxp games.
+
+Here's how you build this fork:
+
+1. install [this fork of `SDL_sound`](https://github.com/Ancurio/SDL_sound)
+2. install Ruby 2.7
+3. Run these and install anything you end up missing from your favorite package manager:
+```sh
+PKG_CONFIG_PATH=/usr/local/lib/pkgconfig cmake -B_build -DMRIVERSION=2.7
+make -C_build -j$(nproc)
+bash make-journal-linux.sh . _build
+```
+
+Then copy `_build/_______` and `_build/oneshot` over the binaries of the same name in your Steam/Itch/whatever OneShot distribution.
+
+**Original readme continues below:**
+
+----
+
 # mkxp-oneshot
 
 This is a specialized fork of [mkxp by Ancurio](https://github.com/Ancurio/mkxp) designed for [*OneShot*](http://oneshot-game.com/).

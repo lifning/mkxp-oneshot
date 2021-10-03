@@ -17,6 +17,8 @@ function atexit {
 
 trap atexit EXIT
 
+# i do not want to build pyqt when my system already has it compiled
+if false ; then
 # Create and initialize venv
 python3 -m venv "$venv"
 set +u
@@ -24,6 +26,7 @@ source "$venv/bin/activate"
 set -u
 pip install --upgrade pip
 pip install pyqt5 pyinstaller
+fi
 
 # Create standalone python distribution
 pyinstaller --onefile \
