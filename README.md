@@ -7,7 +7,7 @@ Building with conan doesn't seem to work at time of writing (403 errors), and I 
 Here's how you build this fork:
 
 1. install [this fork of `SDL_sound`](https://github.com/Ancurio/SDL_sound)
-2. install Ruby 2.7
+2. install Ruby 2.7 (be sure to `./configure --enable-shared` if you're compiling from source)
 3. Run these and install anything you end up missing from your favorite package manager:
 ```sh
 PKG_CONFIG_PATH=/usr/local/lib/pkgconfig cmake -B_build -DMRIVERSION=2.7
