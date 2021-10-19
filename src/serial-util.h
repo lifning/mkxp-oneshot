@@ -27,8 +27,8 @@
 
 #include <SDL_endian.h>
 
-#if SDL_BYTEORDER != SDL_LIL_ENDIAN
-#error "Non little endian systems not supported"
+#if SDL_BYTEORDER != SDL_LIL_ENDIAN && SDL_BYTEORDER != SDL_BIG_ENDIAN
+#error "Middle endian systems not supported"
 #endif
 
 static inline int32_t
@@ -39,23 +39,26 @@ readInt32(const char **dataP)
 	memcpy(&result, *dataP, 4);
 	*dataP += 4;
 
-	return result;
+	return SDL_SwapLE32(result);
 }
 
 static inline double
 readDouble(const char **dataP)
 {
-	double result;
+	int64_t result;
 
 	memcpy(&result, *dataP, 8);
 	*dataP += 8;
 
-	return result;
+	result = SDL_SwapLE64(result);
+
+	return *(double*)(&result);
 }
 
 static inline void
 writeInt32(char **dataP, int32_t value)
 {
+	value = SDL_SwapLE32(value);
 	memcpy(*dataP, &value, 4);
 	*dataP += 4;
 }
@@ -63,7 +66,9 @@ writeInt32(char **dataP, int32_t value)
 static inline void
 writeDouble(char **dataP, double value)
 {
-	memcpy(*dataP, &value, 8);
+	int64_t ivalue = *(int64_t*)&value;
+	ivalue = SDL_SwapLE64(ivalue);
+	memcpy(*dataP, &ivalue, 8);
 	*dataP += 8;
 }
 
